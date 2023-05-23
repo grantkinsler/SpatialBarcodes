@@ -1,0 +1,12 @@
+1	50	70.9	-35.9	ctcgatcacttccctgaccaaaggttag	NNNSW/all_probes_28/BC_418_1
+2	46	70.9	-35.7	ttctacacacgccttgccattacatgag	NNNSW/all_probes_28/BC_418_2
+3	46	64.9	-32.1	tgaacagagacgaactctgtacacacca	NNNSW/all_probes_28/BC_418_3
+4	36	68.8	-33.0	tccgtttcctaggctaatgttaagttat	NNNSW/all_probes_28/BC_418_4
+5	46	66.9	-33.8	aagaaagcaccgctatacaagtgttgcc	NNNSW/all_probes_28/BC_418_5
+6	46	67.0	-33.1	aacacaacatttctgacgaggggtatcc	NNNSW/all_probes_28/BC_418_6
+7	43	65.2	-32.4	aatggtactgacaccaatgcataactcc	NNNSW/all_probes_28/BC_418_7
+8	46	66.6	-31.7	gtctagtcgactgaactggagaacagat	NNNSW/all_probes_28/BC_418_8
+9	43	71.3	-34.0	gatgccttcggtttacatcagatatgtc	NNNSW/all_probes_28/BC_418_9
+10	46	67.7	-34.2	aaaccttcagaatcctgtagaccggaga	NNNSW/all_probes_28/BC_418_10
+11	50	67.5	-32.9	cacgagtacggagtggtaaacttctcac	NNNSW/all_probes_28/BC_418_11
+12	46	70.0	-33.6	aaggtgacgtcgtctagactcatctcaa	NNNSW/all_probes_28/BC_418_12

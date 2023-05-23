@@ -1,0 +1,17 @@
+1	50	63.3	-24.7	cacgaccaacttcacctact	WSN/all_probes/BC_134_1
+2	50	63.6	-22.5	ggagcatctagttgaggaac	WSN/all_probes/BC_134_2
+3	45	61.9	-22.9	caacatgtagaccatgtgca	WSN/all_probes/BC_134_3
+4	60	65.8	-25.6	acgtggatcacgacctggag	WSN/all_probes/BC_134_4
+5	55	68.5	-25.4	tgctggatcacctagtcgag	WSN/all_probes/BC_134_5
+6	45	63.5	-22.9	atcaggaactggttgagcat	WSN/all_probes/BC_134_6
+7	50	63.4	-23.5	gcttcacgaagaccttgtag	WSN/all_probes/BC_134_7
+8	50	69.9	-25.4	ctcgtgcatgttctggatgt	WSN/all_probes/BC_134_8
+9	55	66.8	-25.0	cgtgctgcttcaagagcatg	WSN/all_probes/BC_134_9
+10	50	58.8	-22.7	tccaagacgaccaactacac	WSN/all_probes/BC_134_10
+11	50	67.4	-24.3	tcgtgctagatctgcttgac	WSN/all_probes/BC_134_11
+12	40	62.0	-22.1	tcgtagatctcctacaagta	WSN/all_probes/BC_134_12
+13	55	63.6	-24.4	accttctcgacgtagacgag	WSN/all_probes/BC_134_13
+14	50	64.8	-23.6	tgaagtggtggaacttctcc	WSN/all_probes/BC_134_14
+15	40	60.9	-22.9	tccaacaacttcatcaccta	WSN/all_probes/BC_134_15
+16	50	65.2	-24.9	aacagctccaccttgaggaa	WSN/all_probes/BC_134_16
+17	45	60.9	-22.8	gatcttcacgaactacacct	WSN/all_probes/BC_134_17

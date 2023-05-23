@@ -1,0 +1,15 @@
+1	45	66.1	-23.0	gtgcaagtcgtagtagatct	WSN/all_probes/BC_909_1
+2	55	63.4	-23.3	tgagcaagagcaagagctgg	WSN/all_probes/BC_909_2
+3	50	61.2	-23.0	agcaagaactccaactgctg	WSN/all_probes/BC_909_3
+4	55	57.8	-22.3	gtcgacgacgaagaggaact	WSN/all_probes/BC_909_4
+5	40	64.9	-23.0	catcttgaagttctccatct	WSN/all_probes/BC_909_5
+6	45	70.6	-24.3	ttctagttctcgtgcatctc	WSN/all_probes/BC_909_6
+7	45	64.3	-23.9	aagttgaccacgagcttctt	WSN/all_probes/BC_909_7
+8	50	60.8	-22.9	ttctcgtgcaacaactcgac	WSN/all_probes/BC_909_8
+9	45	62.6	-22.8	caactgctagacctagatct	WSN/all_probes/BC_909_9
+10	50	64.7	-23.0	aggatgtcgaggatgtactc	WSN/all_probes/BC_909_10
+11	40	67.4	-23.3	gttctactacttcatgtgct	WSN/all_probes/BC_909_11
+12	45	64.5	-23.6	tactgctccatcaacttcac	WSN/all_probes/BC_909_12
+13	45	65.9	-23.2	aacaggttctgcttgatctc	WSN/all_probes/BC_909_13
+14	50	64.9	-23.9	ttctagttgacgtgcacgtg	WSN/all_probes/BC_909_14
+15	45	64.2	-23.2	ctgcatcttgaagtgctaca	WSN/all_probes/BC_909_15
