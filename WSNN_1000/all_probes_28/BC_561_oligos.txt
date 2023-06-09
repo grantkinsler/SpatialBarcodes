@@ -1,0 +1,16 @@
+1	46	72.0	-35.3	tccatacaaccagtcatgcagactgtga	WSNN_1000/all_probes_28/BC_561_1
+2	54	67.2	-33.9	ctcggtgacatcgaaagacgcagacttc	WSNN_1000/all_probes_28/BC_561_2
+3	54	69.4	-35.1	aacgtgggaggcacacaatgtacctgag	WSNN_1000/all_probes_28/BC_561_3
+4	50	68.3	-35.8	ccaaactgcgaggcaacctacgttactt	WSNN_1000/all_probes_28/BC_561_4
+5	39	68.3	-33.6	gctttcaaagtatctcccaaccatagat	WSNN_1000/all_probes_28/BC_561_5
+6	39	72.9	-34.1	tagctttcttggttgctttctttgtacg	WSNN_1000/all_probes_28/BC_561_6
+7	46	64.1	-33.1	aactatgaaccatacacggatcgtgcga	WSNN_1000/all_probes_28/BC_561_7
+8	46	64.1	-32.6	ccacggttgcatcgattgtaacaaacac	WSNN_1000/all_probes_28/BC_561_8
+9	50	71.5	-35.4	ttacttgcatgcaacgaggcactgtcac	WSNN_1000/all_probes_28/BC_561_9
+10	50	66.3	-32.9	caaggattgtaactcggagtgtccgaag	WSNN_1000/all_probes_28/BC_561_10
+11	43	70.3	-33.0	gactctgggtctgtaagaaccttagtat	WSNN_1000/all_probes_28/BC_561_11
+12	50	70.3	-34.8	aatgtcacagtgatggatgctcgcatcg	WSNN_1000/all_probes_28/BC_561_12
+13	46	68.3	-33.1	tcatgcacggatgctttcaaagtcagag	WSNN_1000/all_probes_28/BC_561_13
+14	43	72.1	-33.1	attcacagtaggttagtctgttcgaagc	WSNN_1000/all_probes_28/BC_561_14
+15	50	73.9	-34.5	taggttgcacactctgactgtgagagtg	WSNN_1000/all_probes_28/BC_561_15
+16	46	62.2	-30.9	acgagactgtcaatgaacgtaagagcga	WSNN_1000/all_probes_28/BC_561_16

@@ -1,0 +1,80 @@
+>tgattgcaacagtctatcactgtatcactcgtacagtgtgacggagtaagcaagctactatgcctcaaagcaagtcactaaccgaggtagatacaatccgagcttcaca
+>tgattgcaacagtctatcactgtatcactcgtacagtgtgacggagtaagcaagctactatgcctcaaagcaagtcactaaccgaggtagatacaatccgagcttcaca
+>tgattgcaacagtctatcactgtatcactcgtacagtgtgacggagtaagcaagctactatgcctcaaagcaagtcactaaccgaggtagatacaatccgagcttcaca
+>tgattgcaacagtctatcactgtatcactcgtacagtgtgacggagtaagcaagctactatgcctcaaagcaagtcactaaccgaggtagatacaatccgagcttcaca
+FtgattgcaacagtctatcactgtFFFFFFFFFFcFFFFFFFcFgagtaFgcaagctactFFFFctcaaagcaagtFFctaFccgFggFFFFFFFFFFFFFFFFFFFFFF
+                tagtgacatagtgagcatgtcacactgc           gatgatacggagtttcgttcagtgattg    catctatgttaggctcgaagtgt
+                Prb# 1,FE -32.9,GC 46.4286             Prb# 2,FE -33,GC 42.8571        Prb# 3,FE -34.9,GC 50  
+
+cgcagcctgtgagtctccgtgcgaccttggttccaactgacggagactcggtcccaggctcgtaggtagttagcctcggtgtttgagacagacatagtcacatagagact
+cgcagcctgtgagtctccgtgcgaccttggttccaactgacggagactcggtcccaggctcgtaggtagttagcctcggtgtttgagacagacatagtcacatagagact
+cgcagcctgtgagtctccgtgcgaccttggttccaactgacggagactcggtcccaggctcgtaggtagttagcctcggtgtttgagacagacatagtcacatagagact
+cgcagcctgtgagtctccgtgcgaccttggttccaactgacggagactcggtcccaggctcgtaggtagttagcctcggtgtttgagacagacatagtcacatagagact
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFgctcgtaggtagttagcctcggtgtttgagaFagaFFtagtcacatagagact
+gcgtc                                                     gagcatccatcaatcggagccacaaact         tcagtgtatctctga
+                                                          Prb# 4,FE -33.5,GC 50                Prb# 5,FE -32.4
+
+gtctttgcttggtacccagagagaaagactccaagggacatagactctctgcatgtatgttagattgtcacgatcggtcagtgacacccaggctggatccttgtctcgca
+gtctttgcttggtacccagagagaaagactccaagggacatagactctctgcatgtatgttagattgtcacgatcggtcagtgacacccaggctggatccttgtctcgca
+gtctttgcttggtacccagagagaaagactccaagggacatagactctctgcatgtatgttagattgtcacgatcPPPPPPPPPPPPPPPPPPPPPPtccttgtctcgca
+gtctttgcttggtacBBBBBBBBBBBBactccaagggacatagactctctgcatgtatgttagattgtcacgatcggtcaBBBBBBBBBBBBBBBBBBccttgtctcgca
+gtctFFFFFFFFFFFFFFFFFFFFFFFFFFccaagggaFFFFFFFFFFctgcatgtatgttFgFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+cagaaacgaacca                     ccctgtatctgagagacgtacatacaat                                                
+,GC 42.8571                       Prb# 6,FE -33.1,GC 42.8571                                                  
+
+gaatgcgtcgcagagtctgacgctgggtcgtacaaagcaacccagttagactgactcatacattgtgagagacaaagagactctcaaagttaccttcactctttgtctgg
+gaatgcgtcgcagagtctgacgctgggtcgtacaaagcaacccagttagactgactcatacattgtgagagacaaagagactctcaaagttaccttcactctttgtctgg
+gaatgcgtcgcagagtctgacgctgggtcgtacaaagcaacccagttagactgactcatacattgtgagagacaaagagactctcaaagttaccttcactctttgtctgg
+gaatgcgtcgcagagtctgacgctgggtcgtacaaagcaacccagttagactgactcatacattgtgagagacaaagagactctcaaagttaccttcactctttgtctgg
+FFFFFFFFFFFFFFFFFFFFFFFFFggtcgtacaaagcaacccagttagactgactcatacattgtgagagacaaFFFFFFFFFFFFaFttaFFttcactctttgtctgg
+                                gtttcgttgggtcaatctgactgagtat  aacactctctgtttctctgagagtttca     agtgagaaacagacc
+                                Prb# 7,FE -33,GC 42.8571      Prb# 8,FE -32.9,GC 39.2857       Prb# 9,FE -32.8
+
+atgtcactaacccaccttctatcgttcactgcgagacagagtcaaagtgtgtgtgactcacaccaaggatcagagtttgtaagatacctaggtactatgccacgctcaca
+atgtcactaacccaccttctatcgttcactgcgagacagagtcaaagtgtgtgtgactcacaccaaggatcagagtttgtaagatacctaggtactatgccacgctcaca
+atgtcactaacccaccttctatcgttcactgcgagacagagtcaaagtgtgtgtgactcacaccaaggatcagagtttgtaagatacctaggtactatgccacgctcaca
+atgtcactaacccaccttctatcgttcactgcgagacagagtcaaagtgtgtgtgactcacaccaaggatcagagtttgtaagatacctaggtactatgccacgctcaca
+atgtcactaacccaccttctatcgtFcFcFFcgagacagagtcaaFgFFtgtgtgactcacaccaaggatFagagttFgtFFFFFFFFFFFFtFFFFFFFFFFFFFFFFF
+tacagtgattggg   aagatagcaagtgacgctctgtctcagt  cacacacactgagtgtggttcctagtct  aacattctatggatccatgatacggtgc      
+,GC 46.4286     Prb# 10,FE -32.7,GC 46.4286   Prb# 11,FE -35.9,GC 50        Prb# 12,FE -33.7,GC 42.8571       
+
+ccgtctaactgagcatcgatggcaggaagagtggttgtcagggagccactttctgtcctacggtcatagtctcactgcatctctcaatggctcgatgtttgctacggtcc
+ccgtctaactgagcatcgatggcaggaagagtggttgtcagggagccactttctgtcctacggtcatagtctcactgcatctctcaatggctcgatgtttgctacggtcc
+ccgtctaactgagcatcgatggcaggaagagtggttgtcagggagccactttctgtcctacggtcatagtctcactgcatctctcaatggctcgatgtttgctacgPPPP
+ccgtctaactgagcatcgatggcaggaagagtggttgtcagggagccactttctgtcctacggtcatagtctcactgcatctctcaatggctcgatgtttgctacggtcc
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFgFFFFFFFggagccactttctgtcctacggtcatagtctcactgcatctctcaatggctcgatgtFFFctFcggtcc
+                                            cggtgaaagacaggatgccagtatcaga      tagagagttaccgagctacaaacgatgc    
+                                            Prb# 13,FE -33.1,GC 50            Prb# 14,FE -33,GC 46.4286       
+
+ttgtctgtctgacaggatcacagtctggtaggaagagtcggtggatgggtcccaccaactgagactggtagattgagagtatgtaacattggtaccttcagagtttgact
+ttgtctgtctgacaggatcacagtctggtaggaagagtcggtggatgggtcccaccaactgagactggtagattgagagtatgtaacattggtaccttcagagtttgact
+PPPPPPPPPPPPPPPPPPPPPPPPPPPgtaggaagagtcggtggatgggtcccaccaactgagactggtagattgagagtatgtaacattggtaccttcagagtttgact
+ttgtctgtctgacaggatcacagtctggtaggaagagtcggtggatgggtcccaccaactgagactggtagattgagagtatgtaacattggtaccttcagagtttgact
+tFgtFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFcaccaactgagactgFtaFFFtgagFFFFtFtaacattgFFaFFttcagagtttgact
+                                                         tgactctgaccatctaactctcatacat    accatggaagtctcaaactga
+                                                         Prb# 15,FE -33,GC 39.2857       Prb# 16,FE -32,GC 39.
+
+gaaacaatctgagacacgtacaatcagtgaaactgacactgaatccttctatggctgtctgattggtagtctgccaggttcggtgactctcagcttctaaccgtcagtct
+gaaacaatctgagacacgtacaatcagtgaaactgacactgaatccttctatggctgtctgattggtagtctgccaggttcggtgactctcagcttctaaccgtcagtct
+gaaacaatctgagacacgtacaatcagtgaaactgacactgaatccttctatggctgtctgattggtagtctgccaggttcggtgactctcagcttctaaccgtcagtct
+gaaacaatctgagacacgtacaatcagtgaaactgacactgaatccttctatggctgtctgattggtagtctgccaggttcggtgactctcagcttctaaccgtcagtct
+gaaacaatctgagacacgtacaatcagtgaaactgacactgaatccttcFFFFgcFFFFFFFFFFFFFFFFFFccFggttcggtgactctcagctFcFFFFFgtcaFFFF
+ctttgtt       gtgcatgttagtcactttgactgtgact  ggaagataccgacagactaaccatcaga  gtccaagccactgagagtcgaagattgg  gtcaga
+2857          Prb# 17,FE -33.1,GC 42.8571   Prb# 18,FE -32.6,GC 46.4286   Prb# 19,FE -35.5,GC 53.5714   Prb# 2
+
+ttgcatgggtcgctccaacataggaacgcagtcacatactttgatacaaagtgactcacagagcctccatggttctcaggttcgaactaagcaaccgtcattggtactga
+ttgcatgggtcgctccaacataggaacgcagtcacatactttgatacaaagtgactcacagagcctccatggttctcaggttcgaactaagcaaccgtcattggtactga
+ttgcatgggtcgctccaacataggaacgcagtcacatactttgatacaaagtgactcacagagcctccatggttctcaggttcgaactaagcaaccgtcattggtactga
+ttgcatgggtcgctccaacataggaacgcagtcacatactttgatacaaagtgactcacagagcctccatggttctcaggttcgaactaagcaaccgtcattggtactga
+FFFFFFFFFFFFctccaacataggaacgFFFFFaFatactttgaFFcFFFgFFFcFFFcFFagcctccatggttctcaggttcgaactFFFcFaccgtcattggtactga
+aacgtacccagcgaggttgtat  ttgcgtcagtgtatgaaactatgtttca  gagtgtctcggaggtaccaagagtccaa    gattcgttggcagtaaccatgact
+0,FE -34.9,GC 50        Prb# 21,FE -30.8,GC 35.7143   Prb# 22,FE -35.8,GC 53.5714     Prb# 23,FE -34.5,GC 46.4
+
+gactggtaggt
+gactggtaggt
+gactggtaggt
+gactggtaggt
+gactggtaggt
+ctga       
+286        
+
