@@ -1,9 +1,0 @@
-1	46	71.4	-33.3	caagttcatctggatctgcatctagagg	WSN_699/all_probes_28/BC_202_1
-2	46	66.3	-32.2	aggtcgacgtagttcaagtagaacacga	WSN_699/all_probes_28/BC_202_2
-3	46	68.4	-33.2	gttgtccaccaagaagatctagacgtac	WSN_699/all_probes_28/BC_202_3
-4	46	66.2	-33.0	caacaacatgttgtactccaactgctcg	WSN_699/all_probes_28/BC_202_4
-5	46	71.8	-35.8	tactgcaccaacacctcctagatgtaga	WSN_699/all_probes_28/BC_202_5
-6	50	66.2	-33.0	cttcaagaccttgagcaagacgaacagc	WSN_699/all_probes_28/BC_202_6
-7	50	73.2	-35.9	catcaccatgttgttgtggtgctcgaag	WSN_699/all_probes_28/BC_202_7
-8	50	70.6	-32.9	ggttgaagacgaagtagttcaggaggtc	WSN_699/all_probes_28/BC_202_8
-9	50	64.9	-33.1	cgatgtggtgcacgaagaactagaccaa	WSN_699/all_probes_28/BC_202_9
