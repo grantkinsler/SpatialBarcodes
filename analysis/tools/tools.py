@@ -68,6 +68,19 @@ def get_all_barcodes_in_region(df,identifiers,id_field='cell_id'):
     return bc_list
 
 
+def get_barcodes_within_polygon(df,identifier,id_field='cell_id',barcode_cols=[f'bc_{i:03}' for i in range(1,97)]):
+
+    this_polygon = df[df[id_field]==identifier]
+    m2 = (this_polygon[barcode_cols] > 0).any()
+    cols = m2.index[m2].tolist()
+    return cols
+
+def get_barcodes_within_polygonlist(df,identifier_list,id_field='cell_id',barcode_cols=[f'bc_{i:03}' for i in range(1,97)]):
+
+    this_polygon = df[df[id_field].isin(identifier_list)]
+    m2 = (this_polygon[barcode_cols] > 0).any()
+    cols = m2.index[m2].tolist()
+    return cols
 
 
 
@@ -253,3 +266,30 @@ def plot_polygon_and_points(sg_obj, identifier, id_field='object_id', gene_names
         ax.set_ylabel("Y")
 
         plt.show()
+
+from matplotlib import pyplot as plt
+from scipy.cluster.hierarchy import dendrogram
+from sklearn.datasets import load_iris
+from sklearn.cluster import AgglomerativeClustering as AggCluster
+
+def plot_dendrogram(model, **kwargs):
+    # Create linkage matrix and then plot the dendrogram
+
+    # create the counts of samples under each node
+    counts = np.zeros(model.children_.shape[0])
+    n_samples = len(model.labels_)
+    for i, merge in enumerate(model.children_):
+        current_count = 0
+        for child_idx in merge:
+            if child_idx < n_samples:
+                current_count += 1  # leaf node
+            else:
+                current_count += counts[child_idx - n_samples]
+        counts[i] = current_count
+
+    linkage_matrix = np.column_stack(
+        [model.children_, model.distances_, counts]
+    ).astype(float)
+
+    # Plot the corresponding dendrogram
+    dendrogram(linkage_matrix, **kwargs)
