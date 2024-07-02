@@ -193,13 +193,16 @@ def show_neighberhood(sg_obj, identifier, image_path, id_field='object_id', imag
 
 
 
-def plot_polygon_and_points(sg_obj, identifier, id_field='object_id', gene_names=None,annotate=True,image_scale=1.0,
-                                interior_marker='o',exterior_marker='x',marker_size=50,color_map=None):
+def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id', gene_names=None,annotate=True,image_scale=1.0,
+                                interior_marker='o',exterior_marker='x',
+                                focal_outline_color='red',other_outline_color='black',
+                                interior_edgecolor=None,
+                                marker_size=50,color_map=None,label=None):
         if sg_obj.gdf is None or sg_obj.assigned_points_gdf is None:
             print("Error: Ensure both gdf and assigned_points_gdf are loaded.")
             return
 
-        polygon_gdf = sg_obj.gdf[sg_obj.gdf[id_field] == identifier]
+        polygon_gdf = sg_obj.gdf[sg_obj.gdf[id_field].isin(identifiers)]
 
         if polygon_gdf.empty:
             print(f"No polygon found with {id_field} == {identifier}")
@@ -212,7 +215,7 @@ def plot_polygon_and_points(sg_obj, identifier, id_field='object_id', gene_names
         dy = (maxy - miny) * 0.5 * image_scale
         expanded_bbox = box(minx - dx, miny - dy, maxx + dx, maxy + dy)
 
-        other_polygons = sg_obj.gdf[sg_obj.gdf.geometry.intersects(expanded_bbox) & (sg_obj.gdf[id_field] != identifier)]
+        other_polygons = sg_obj.gdf[sg_obj.gdf.geometry.intersects(expanded_bbox) & (~sg_obj.gdf[id_field].isin(identifiers))]
         
         
         if gene_names is not None:
@@ -227,8 +230,8 @@ def plot_polygon_and_points(sg_obj, identifier, id_field='object_id', gene_names
             points_within_bbox = sg_obj.assigned_points_gdf[sg_obj.assigned_points_gdf.geometry.within(expanded_bbox)]
 
         fig, ax = plt.subplots()
-        polygon_gdf.boundary.plot(ax=ax, color='red', linewidth=2)
-        other_polygons.boundary.plot(ax=ax, color='black', linewidth=1)
+        polygon_gdf.boundary.plot(ax=ax, color=focal_outline_color, linewidth=1)
+        other_polygons.boundary.plot(ax=ax, color=other_outline_color, linewidth=1)
 
         # Generate a unique color for each name
         unique_names = points_within_bbox['name'].unique()
@@ -243,12 +246,14 @@ def plot_polygon_and_points(sg_obj, identifier, id_field='object_id', gene_names
 
         # Plot points, label them, and use consistent colors for names
         for name, group in points_within_bbox.groupby('name'):
-            interior_points = group[group[id_field] == identifier]
-            exterior_points = group[group[id_field] != identifier]
+            interior_points = group[group[id_field].isin(identifiers)]
+            exterior_points = group[~group[id_field].isin(identifiers)]
             
             # Plot interior points with 'o' marker style
             if not interior_points.empty:
-                ax.scatter(interior_points.geometry.x, interior_points.geometry.y, marker=interior_marker, s=marker_size, edgecolor='black', color=color_map[name])
+                ax.scatter(interior_points.geometry.x, interior_points.geometry.y, marker=interior_marker, s=marker_size, edgecolor=interior_edgecolor, color=color_map[name])
+
+
             
             # Plot exterior points with 'x' marker style
             if not exterior_points.empty:
@@ -261,11 +266,11 @@ def plot_polygon_and_points(sg_obj, identifier, id_field='object_id', gene_names
 
         ax.set_xlim([minx - dx, maxx + dx])
         ax.set_ylim([miny - dy, maxy + dy])
-        ax.set_title(f"Polygon {identifier} and Surrounding Area")
+        ax.set_title(f"Polygons {label} and Surrounding Area")
         ax.set_xlabel("X")
         ax.set_ylabel("Y")
 
-        plt.show()
+        return ax
 
 from matplotlib import pyplot as plt
 from scipy.cluster.hierarchy import dendrogram
