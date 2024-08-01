@@ -196,11 +196,12 @@ def show_neighberhood(sg_obj, identifier, image_path, id_field='object_id', imag
 def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id', gene_names=None,annotate=True,image_scale=1.0,
                                 interior_marker='o',exterior_marker='x',
                                 focal_outline_color='red',other_outline_color='black',
-                                interior_edgecolor=None,
-                                marker_size=50,color_map=None,label=None):
+                                interior_edgecolor=None,central_polygon_ix=0,single_mode=True,
+                                marker_size=50,lw=1,color_map=None,label=None,ax=None):
         if sg_obj.gdf is None or sg_obj.assigned_points_gdf is None:
             print("Error: Ensure both gdf and assigned_points_gdf are loaded.")
             return
+    
 
         polygon_gdf = sg_obj.gdf[sg_obj.gdf[id_field].isin(identifiers)]
 
@@ -208,9 +209,16 @@ def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id', gene_nam
             print(f"No polygon found with {id_field} == {identifier}")
             return
 
-        first_polygon_geometry = polygon_gdf.geometry.iloc[0]
+        if single_mode:
+            first_polygon_geometry = polygon_gdf.geometry.iloc[central_polygon_ix]
+            minx, miny, maxx, maxy = first_polygon_geometry.geometry.bounds
+        else:
+            all_polygon_bounds = polygon_gdf.geometry.bounds
+            minx = min(all_polygon_bounds.minx)
+            miny = min(all_polygon_bounds.miny)
+            maxx = max(all_polygon_bounds.maxx)
+            maxy = max(all_polygon_bounds.maxy)
 
-        minx, miny, maxx, maxy = first_polygon_geometry.bounds
         dx = (maxx - minx) * 0.5 * image_scale
         dy = (maxy - miny) * 0.5 * image_scale
         expanded_bbox = box(minx - dx, miny - dy, maxx + dx, maxy + dy)
@@ -229,9 +237,10 @@ def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id', gene_nam
             # if no gene names are passed, get all the ones in the expanded bbox
             points_within_bbox = sg_obj.assigned_points_gdf[sg_obj.assigned_points_gdf.geometry.within(expanded_bbox)]
 
-        fig, ax = plt.subplots()
-        polygon_gdf.boundary.plot(ax=ax, color=focal_outline_color, linewidth=1)
-        other_polygons.boundary.plot(ax=ax, color=other_outline_color, linewidth=1)
+        if ax is None:
+            fig, ax = plt.subplots()
+        polygon_gdf.boundary.plot(ax=ax, color=focal_outline_color, linewidth=lw)
+        other_polygons.boundary.plot(ax=ax, color=other_outline_color, linewidth=lw)
 
         # Generate a unique color for each name
         unique_names = points_within_bbox['name'].unique()
