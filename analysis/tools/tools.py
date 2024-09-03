@@ -86,7 +86,7 @@ def get_barcodes_within_polygonlist(df,identifier_list,id_field='cell_id',barcod
 
 
 
-def show_neighberhood(sg_obj, identifier, image_path, id_field='object_id', image_scale=1.0):
+def show_neighborhood(sg_obj, identifier, image_path, id_field='object_id', image_scale=1.0,ax=None):
     #   transcripts, gene, gfp_coords,self_expression, nn_mean, output_figure_path, figure_size=[],width_cm = 8, height_cm = 8 ,dpi=300):
     """
     Display the neighborhood of a specific object in an image.
@@ -165,6 +165,15 @@ def show_neighberhood(sg_obj, identifier, image_path, id_field='object_id', imag
     # Create a new image with the blue channel based on the saturated grayscale values
     blue_image_array = np.zeros((gray_array.shape[0], gray_array.shape[1], 3), dtype=np.uint8)
     blue_image_array[:, :, 2] = saturated_blue  # Set the blue channel
+    # also set other channels
+    blue_image_array[:, :, 0] = saturated_blue  # Set the blue channel
+    blue_image_array[:, :, 1] = saturated_blue  # Set the blue channel
+
+
+    blue_image_array[:, :, 2] = normalized_gray  # Set the blue channel
+    # also set other channels
+    blue_image_array[:, :, 0] = normalized_gray   # Set the blue channel
+    blue_image_array[:, :, 1] = normalized_gray  # Set the blue channel
 
     # Create a figure
     fig, ax = plt.subplots()
@@ -191,13 +200,95 @@ def show_neighberhood(sg_obj, identifier, image_path, id_field='object_id', imag
     # plt.close()
     # return fig
 
+def show_neighborhood_subimage(image_path,bounds_tuple,ax=None):
+    #   transcripts, gene, gfp_coords,self_expression, nn_mean, output_figure_path, figure_size=[],width_cm = 8, height_cm = 8 ,dpi=300):
+    """
+    Display the neighborhood of a specific object in an image.
+
+    Parameters:
+    - sg_obj: SGobject containing the spatial information.
+    - identifier: Identifier of the object to display the neighborhood for.
+    - image_path: Path to the TIFF image file.
+    - id_field: Field name in the sg_obj.gdf DataFrame that contains the object identifiers. Default is 'object_id'.
+    - image_scale: Scale factor to adjust the size of the neighborhood. Default is 1.0.
+
+    Returns:
+    - fig: Matplotlib figure object displaying the neighborhood.
+
+    Note:
+    - This function requires the following libraries: tiff, box, np, plt from matplotlib.
+
+    Example usage:
+    ```
+    sg_obj = SGobject(...)
+    identifier = 'object123'
+    image_path = '/path/to/image.tif'
+    fig = show_neighberhood(sg_obj, identifier, image_path)
+    plt.show()
+    ```
+    """
+    # Load the TIFF file
+    image = tiff.imread(image_path)
+
+    bounds_tuple = tuple(map(int, bounds_tuple))
+
+    # unpack the bounds from the passsed tuple
+    (range_x_lower, range_y_lower, range_x_upper, range_y_upper) =  bounds_tuple
+
+    # Ensure the ranges are within image bounds
+    range_y_lower = max(range_y_lower, 0)
+    range_y_upper = min(range_y_upper, image.shape[1])
+    range_x_lower = max(range_x_lower, 0)
+    range_x_upper = min(range_x_upper, image.shape[2])
+
+    print(range_y_lower,range_y_upper, range_x_lower,range_x_upper)
+
+    # Create the boolean mask
+    # spot_in_range = ((spot_coords[:, 1] > range_y_lower) & (spot_coords[:, 1] < range_y_upper)) & \
+    #                 ((spot_coords[:, 0] > range_x_lower) & (spot_coords[:, 0] < range_x_upper))
+    # print(np.shape(spot_in_range))
+
+    # Crop the fourth channel using the bounding rectangle
+    cropped_image = image[3, range_y_lower:range_y_upper, range_x_lower:range_x_upper]
+
+    # Check if cropped_image is non-empty
+    if cropped_image.size == 0:
+        print(f"No pixels found in the specified range for coordinates {coordinates}")
+        return
+
+    gray_array = np.array(cropped_image)
+
+    # Normalize the pixel values to the range 0-255
+    normalized_gray = (gray_array - gray_array.min()) / (gray_array.max() - gray_array.min()) * 255
+    normalized_gray = normalized_gray.astype(np.uint8)
+
+    # Increase the saturation of the blue channel
+    saturated_blue = normalized_gray * 1.5  # Increase intensity by 50%
+    saturated_blue = np.clip(saturated_blue, 0, 255).astype(np.uint8)  # Ensure values are within 0-255
+
+    # Create a new image with the blue channel based on the saturated grayscale values
+    blue_image_array = np.zeros((gray_array.shape[0], gray_array.shape[1], 3), dtype=np.uint8)
+    # blue_image_array[:, :, 2] = saturated_blue  # Set the blue channel
+    blue_image_array[:, :, 2] = normalized_gray  # Set the blue channel
+
+    # Create a figure
+    # fig, ax = plt.subplots()
+    ax.imshow(blue_image_array,extent=[range_x_lower,range_x_upper,range_y_lower,range_y_upper],origin='lower')
+
+
+    # ax.axis('off')  # Hide axis
+
+    return ax
+
 
 
 def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id', gene_names=None,annotate=True,image_scale=1.0,
                                 interior_marker='o',exterior_marker='x',
                                 focal_outline_color='red',other_outline_color='black',
                                 interior_edgecolor=None,central_polygon_ix=0,single_mode=True,
-                                marker_size=50,lw=1,color_map=None,label=None,ax=None):
+                                marker_size=50,lw=1,color_map=None,label=None,ax=None,
+                                show_image=False,image_path=None,
+                                annotate_cells=False):
         if sg_obj.gdf is None or sg_obj.assigned_points_gdf is None:
             print("Error: Ensure both gdf and assigned_points_gdf are loaded.")
             return
@@ -239,6 +330,18 @@ def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id', gene_nam
 
         if ax is None:
             fig, ax = plt.subplots()
+
+        if show_image:
+            if image_path == None:
+                print('No image path found')
+                return
+            
+            bounds_tuple = (minx - dx, miny - dy, maxx + dx, maxy + dy)
+
+            ax = show_neighborhood_subimage(image_path,bounds_tuple,ax=ax)
+
+
+
         polygon_gdf.boundary.plot(ax=ax, color=focal_outline_color, linewidth=lw)
         other_polygons.boundary.plot(ax=ax, color=other_outline_color, linewidth=lw)
 
@@ -272,6 +375,14 @@ def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id', gene_nam
                 # Labeling remains the same for all points
                 for x, y in zip(group.geometry.x, group.geometry.y):
                     ax.text(x, y, name, fontsize=8, ha='right')
+
+        # add names for the cells
+        if annotate_cells:
+            for x,y,name in zip(polygon_gdf.geometry.centroid.x,polygon_gdf.geometry.centroid.y,polygon_gdf['object_id'].values):
+                ax.text(x, y, name, fontsize=8, ha='center',color='w')
+            for x,y,name in zip(other_polygons.geometry.centroid.x,other_polygons.geometry.centroid.y,other_polygons['object_id'].values):
+                ax.text(x, y, name, fontsize=8, ha='center',color='w')
+
 
         ax.set_xlim([minx - dx, maxx + dx])
         ax.set_ylim([miny - dy, maxy + dy])
