@@ -288,10 +288,13 @@ def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id', gene_nam
                                 interior_edgecolor=None,central_polygon_ix=0,single_mode=True,
                                 marker_size=50,lw=1,color_map=None,label=None,ax=None,
                                 show_image=False,image_path=None,
-                                annotate_cells=False):
+                                annotate_cells=False,**kwargs):
         if sg_obj.gdf is None or sg_obj.assigned_points_gdf is None:
             print("Error: Ensure both gdf and assigned_points_gdf are loaded.")
             return
+        
+        # make kwargs back into dictionary
+        
     
 
         polygon_gdf = sg_obj.gdf[sg_obj.gdf[id_field].isin(identifiers)]
@@ -363,13 +366,12 @@ def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id', gene_nam
             
             # Plot interior points with 'o' marker style
             if not interior_points.empty:
-                ax.scatter(interior_points.geometry.x, interior_points.geometry.y, marker=interior_marker, s=marker_size, edgecolor=interior_edgecolor, color=color_map[name])
-
+                ax.scatter(interior_points.geometry.x, interior_points.geometry.y, marker=interior_marker, s=marker_size, edgecolor=interior_edgecolor, color=color_map[name],**kwargs)
 
             
             # Plot exterior points with 'x' marker style
             if not exterior_points.empty:
-                ax.scatter(exterior_points.geometry.x, exterior_points.geometry.y, marker=exterior_marker, s=marker_size, color=color_map[name])
+                ax.scatter(exterior_points.geometry.x, exterior_points.geometry.y, marker=exterior_marker, s=marker_size, color=color_map[name],**kwargs)
             
             if annotate:
                 # Labeling remains the same for all points
