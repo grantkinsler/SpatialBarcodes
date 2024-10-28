@@ -11,6 +11,8 @@ import scanpy as sc
 import pandas as pd
 import geopandas as gpd
 
+from ast import literal_eval
+
 from matplotlib import colors
 
 import pickle
@@ -25,6 +27,11 @@ import matplotlib
 # matplotlib.use('Qt5Agg')
 # %matplotlib qt
 
+
+# this function jitters a point by the standard deviation
+# useful for jittering points for visualization
+def jitter_point(mean,std=0.15):
+    return np.random.normal(mean,std)
 
 # This function retrieves the polygons around a given polygon in an SGobject.
 # It takes the SGobject, identifier, id_field, and image_scale as input parameters.
@@ -49,21 +56,23 @@ def get_polygons_around_polygon(sg_obj, identifier, id_field='object_id', image_
     # Return the other polygons
     return other_polygons
 
-def get_polygon_barcodes(df,identifier,id_field='cell_id'):
+def get_polygon_barcodes(df,identifier,id_field='cell_id',literal_eval=False):
 
     if len(df[df[id_field]==identifier]['called_barcodes'].values) > 0:
-
-        return df[df[id_field]==identifier]['called_barcodes'].values[0]
+        if literal_eval:
+            return literal_eval(df[df[id_field]==identifier]['called_barcodes'].values[0])
+        else:
+            return df[df[id_field]==identifier]['called_barcodes'].values[0]
 
     else:
         return []
 
-def get_all_barcodes_in_region(df,identifiers,id_field='cell_id'):
+def get_all_barcodes_in_region(df,identifiers,id_field='cell_id',literal_eval=False):
 
     bc_list = []
 
     for identifier in identifiers:
-        bc_list += get_polygon_barcodes(df,identifier,id_field=id_field)
+        bc_list += get_polygon_barcodes(df,identifier,id_field=id_field,literal_eval=literal_eval)
 
     return bc_list
 
@@ -282,13 +291,16 @@ def show_neighborhood_subimage(image_path,bounds_tuple,ax=None):
 
 
 
-def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id', gene_names=None,annotate=True,image_scale=1.0,
+def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id', 
+                             gene_names=None,annotate=True,image_scale=1.0,
                                 interior_marker='o',exterior_marker='x',
                                 focal_outline_color='red',other_outline_color='black',
                                 interior_edgecolor=None,central_polygon_ix=0,single_mode=True,
                                 marker_size=50,lw=1,color_map=None,label=None,ax=None,
                                 show_image=False,image_path=None,
-                                annotate_cells=False,**kwargs):
+                                annotate_cells=False,annotation_color='w',
+                                annotation_fontsize=8
+                                ,**kwargs):
         if sg_obj.gdf is None or sg_obj.assigned_points_gdf is None:
             print("Error: Ensure both gdf and assigned_points_gdf are loaded.")
             return
@@ -366,12 +378,14 @@ def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id', gene_nam
             
             # Plot interior points with 'o' marker style
             if not interior_points.empty:
-                ax.scatter(interior_points.geometry.x, interior_points.geometry.y, marker=interior_marker, s=marker_size, edgecolor=interior_edgecolor, color=color_map[name],**kwargs)
+                ax.scatter(interior_points.geometry.x, interior_points.geometry.y,
+                           marker=interior_marker, s=marker_size, edgecolor=interior_edgecolor, 
+                           color=color_map[name],lw=0,**kwargs)
 
-            
             # Plot exterior points with 'x' marker style
             if not exterior_points.empty:
-                ax.scatter(exterior_points.geometry.x, exterior_points.geometry.y, marker=exterior_marker, s=marker_size, color=color_map[name],**kwargs)
+                ax.scatter(exterior_points.geometry.x, exterior_points.geometry.y, marker=exterior_marker, 
+                           s=marker_size, color=color_map[name],lw=0,**kwargs)
             
             if annotate:
                 # Labeling remains the same for all points
@@ -381,9 +395,9 @@ def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id', gene_nam
         # add names for the cells
         if annotate_cells:
             for x,y,name in zip(polygon_gdf.geometry.centroid.x,polygon_gdf.geometry.centroid.y,polygon_gdf['object_id'].values):
-                ax.text(x, y, name, fontsize=8, ha='center',color='w')
+                ax.text(x, y, name, fontsize=annotation_fontsize, ha='center',color=annotation_color)
             for x,y,name in zip(other_polygons.geometry.centroid.x,other_polygons.geometry.centroid.y,other_polygons['object_id'].values):
-                ax.text(x, y, name, fontsize=8, ha='center',color='w')
+                ax.text(x, y, name, fontsize=annotation_fontsize, ha='center',color=annotation_color)
 
 
         ax.set_xlim([minx - dx, maxx + dx])
