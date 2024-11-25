@@ -1,2 +1,5 @@
 analysis/plots/37880_region_barcode+expression_big500.pd filter=lfs diff=lfs merge=lfs -text
 analysis/plots/37880_region_barcode+expression_big500.pdf filter=lfs diff=lfs merge=lfs -text
+*.pdf filter=lfs diff=lfs merge=lfs -text
+nalysis/plots/figures/figure1/4957_region_barcode+expression_big10.pdf filter=lfs diff=lfs merge=lfs -text
+analysis/plots/figures/figure1/4957_region_barcode+expression_big10.pdf filter=lfs diff=lfs merge=lfs -text
