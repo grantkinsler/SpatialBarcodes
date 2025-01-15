@@ -56,10 +56,10 @@ def get_polygons_around_polygon(sg_obj, identifier, id_field='object_id', image_
     # Return the other polygons
     return other_polygons
 
-def get_polygon_barcodes(df,identifier,id_field='cell_id',literal_eval=False):
+def get_polygon_barcodes(df,identifier,id_field='cell_id',literal_eval_bool=False):
 
     if len(df[df[id_field]==identifier]['called_barcodes'].values) > 0:
-        if literal_eval:
+        if literal_eval_bool:
             return literal_eval(df[df[id_field]==identifier]['called_barcodes'].values[0])
         else:
             return df[df[id_field]==identifier]['called_barcodes'].values[0]
@@ -67,12 +67,12 @@ def get_polygon_barcodes(df,identifier,id_field='cell_id',literal_eval=False):
     else:
         return []
 
-def get_all_barcodes_in_region(df,identifiers,id_field='cell_id',literal_eval=False):
+def get_all_barcodes_in_region(df,identifiers,id_field='cell_id',literal_eval_bool=False):
 
     bc_list = []
 
     for identifier in identifiers:
-        bc_list += get_polygon_barcodes(df,identifier,id_field=id_field,literal_eval=literal_eval)
+        bc_list += get_polygon_barcodes(df,identifier,id_field=id_field,literal_eval_bool=literal_eval_bool)
 
     return bc_list
 
