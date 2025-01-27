@@ -243,7 +243,7 @@ for roi_name,files in roi_file_paths.items():
     for clu in np.unique(cluster.labels_):
         cluster_objects[clu] = matrix.index[cluster.labels_ == clu]
 
-        avg_bc_counts = np.mean(matrix[cluster.labels_ == clu],axis=0)
+        avg_bc_counts = np.median(matrix[cluster.labels_ == clu],axis=0)
         # print(avg_bc_counts)
         # break
 

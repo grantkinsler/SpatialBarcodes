@@ -20,6 +20,8 @@ import scipy
 
 import seaborn as sns
 
+import random
+
 from SGanalysis.SGobject import SGobject
 
 import matplotlib
@@ -32,6 +34,27 @@ import matplotlib
 # useful for jittering points for visualization
 def jitter_point(mean,std=0.15):
     return np.random.normal(mean,std)
+
+
+def divide_gdf_into_groups(gdf, n):
+    """Splits a gdf into n groups."""
+
+    if n > 1:
+
+        shuffled_ix = np.random.choice(gdf.index,size=len(gdf.index),replace=False)  # Shuffle the list for randomness
+        # gdf_shuffled = gdf.iloc[shuffled_ix]
+        group_size = len(gdf.index) // n
+        groups = []
+
+        for i in range(n):
+            start = i * group_size
+            end = start + group_size if i < n - 1 else len(shuffled_ix)
+            groups.append(gdf.loc[shuffled_ix[start:end]])
+
+        return groups
+    else:
+        return [gdf]
+
 
 # This function retrieves the polygons around a given polygon in an SGobject.
 # It takes the SGobject, identifier, id_field, and image_scale as input parameters.
@@ -299,8 +322,8 @@ def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id',
                                 marker_size=50,lw=1,color_map=None,label=None,ax=None,
                                 show_image=False,image_path=None,
                                 annotate_cells=False,annotation_color='w',
-                                annotation_fontsize=8
-                                ,**kwargs):
+                                annotation_fontsize=8,n_plotting_groups=1,
+                                **kwargs):
         if sg_obj.gdf is None or sg_obj.assigned_points_gdf is None:
             print("Error: Ensure both gdf and assigned_points_gdf are loaded.")
             return
@@ -372,25 +395,33 @@ def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id',
 
 
         # Plot points, label them, and use consistent colors for names
-        for name, group in points_within_bbox.groupby('name'):
-            interior_points = group[group[id_field].isin(identifiers)]
-            exterior_points = group[~group[id_field].isin(identifiers)]
-            
-            # Plot interior points with 'o' marker style
-            if not interior_points.empty:
-                ax.scatter(interior_points.geometry.x, interior_points.geometry.y,
-                           marker=interior_marker, s=marker_size, edgecolor=interior_edgecolor, 
-                           color=color_map[name],lw=0,**kwargs)
+        for name, full_group in points_within_bbox.groupby('name'):
 
-            # Plot exterior points with 'x' marker style
-            if not exterior_points.empty:
-                ax.scatter(exterior_points.geometry.x, exterior_points.geometry.y, marker=exterior_marker, 
-                           s=marker_size, color=color_map[name],lw=0,**kwargs)
-            
-            if annotate:
-                # Labeling remains the same for all points
-                for x, y in zip(group.geometry.x, group.geometry.y):
-                    ax.text(x, y, name, fontsize=8, ha='right')
+            for group in divide_gdf_into_groups(full_group, n_plotting_groups):
+
+                z_order_here = np.random.choice(range(n_plotting_groups))
+
+                # print(type(group))
+                # print(group)
+                # break
+
+                interior_points = group[group[id_field].isin(identifiers)]
+                exterior_points = group[~group[id_field].isin(identifiers)]
+                
+                # Plot interior points with 'o' marker style
+                if not interior_points.empty:
+                    ax.scatter(interior_points.geometry.x, interior_points.geometry.y,
+                            marker=interior_marker, s=marker_size, edgecolor=interior_edgecolor, 
+                            color=color_map[name],lw=0,zorder=z_order_here,**kwargs)
+                # Plot exterior points with 'x' marker style
+                if not exterior_points.empty:
+                    ax.scatter(exterior_points.geometry.x, exterior_points.geometry.y, marker=exterior_marker, 
+                            s=marker_size, color=color_map[name],lw=0,zorder=z_order_here,**kwargs)
+                
+                if annotate:
+                    # Labeling remains the same for all points
+                    for x, y in zip(group.geometry.x, group.geometry.y):
+                        ax.text(x, y, name, fontsize=8, ha='right')
 
         # add names for the cells
         if annotate_cells:
@@ -398,7 +429,6 @@ def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id',
                 ax.text(x, y, name, fontsize=annotation_fontsize, ha='center',color=annotation_color)
             for x,y,name in zip(other_polygons.geometry.centroid.x,other_polygons.geometry.centroid.y,other_polygons['object_id'].values):
                 ax.text(x, y, name, fontsize=annotation_fontsize, ha='center',color=annotation_color)
-
 
         ax.set_xlim([minx - dx, maxx + dx])
         ax.set_ylim([miny - dy, maxy + dy])
