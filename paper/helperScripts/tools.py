@@ -27,20 +27,40 @@ import matplotlib
 # matplotlib.use('Qt5Agg')
 # %matplotlib qt
 
+sg_pixel_size = 107.11 # in nanometers
+
+## the name of the barcode columns
+barcode_cols = ['bc_{:03d}'.format(i) for i in range(1,97)]
+
+gene_cols = [
+    # serial genes
+    'GFP','IGFBP2','IGFBP7','CAPG','MT-RNR2','SNAI2','VGF','MMP1','ITGA3','SERPINE1','COL1A1','CCND1','SPARC','FN1','CALD1','SCG2','BGN','L1CAM','COL5A2','ENSMUSG00000071361',
+
+    # barcoded genes 
+'SOX10','MLANA','LOXL2','VCAM1','FOSL1','TYR','MYC','JUN','HIF1A','ITGAV','ITGA5','CTNNB1','MYLK','SFRP1','TGFB1','HK2','CDKN1B','WNT5A','SFRP4','PKDCC','ERBB3','PDGFRB','VEGFC','AXL',
+'GPX8','FOSL2','RGS2','NT5E','IRX3','NFE2L2','IFIT2','CD36','TAGLN','MITF','TOP2A','SMAD3','NFATC2','FGFR1','TGFB1I1','MYBL2','SLC7A8','CDK1','YAP1','CDKN1A','CCNA2','MKI67',
+'GTSE1','VEGFA','TFAP2A','ITGA6','ZEB2','DCN','PRRX1','OASL','NRG1','PDGFA','TDO2','MAPK14','LMOD1','AKT1','PDGFC','FOXF2','TGFBR2','EGFR','RIGI','BIRC5','MET','MYOCD','TRPM1','PRKCA',
+'ROR1','TAFAZZIN','COL9A3','SNAI1','KLF4','ZEB1','ITGA8','RUNX2','BMP2','FOS','NOTCH3','SERPINF1','MERTK','NCAM1','MMP11','FGF1','ESPN','NGFR','BIRC3','MEF2C','SOX9','ROR2','SLIT2',
+'BMP4','FOSB','KIT','NOTCH4','DKK3','SOX2','NANOG']
+
+# these genes were expressed in very few cells
+# genes_to_exclude = ['BMP4', 'ENSMUSG00000071361', 'ITGA8', 'KIT', 'NANOG', 'ROR2', 'SOX2']
+genes_to_exclude = ['BMP4', 'ENSMUSG00000071361', 'ITGA8', 'KIT', 'NANOG', 'ROR2', 'SOX2']
+
 roi_file_paths = {
 
-    # 'roi_1':{'segmentation_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_1/segmentations/nuclei_20240604_nuclei.tiff',
-    #                        'spots_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_1/exports/decode_20240604.csv',
-    #                         'out_path':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_1/exports'
-    #                        },
+    'roi_1':{'segmentation_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_1/segmentations/nuclei_20240604_nuclei.tiff',
+                           'spots_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_1/exports/decode_20240604.csv',
+                            'out_path':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_1/exports'
+                           },
                   'roi_2':{'segmentation_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_2/segmentations/nuclei_20240529_nuclei.tiff',
                            'spots_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_2/exports/decode_20240604.csv',
                             'out_path':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_2/exports'
                            },
-    #               'roi_3':{'segmentation_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_3/segmentations/nuclei_20240604_nuclei.tiff',
-    #                        'spots_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_3/exports/decode_20240604.csv',
-    #                         'out_path':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_3/exports'
-    #                        },
+                  'roi_3':{'segmentation_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_3/segmentations/nuclei_20240604_nuclei.tiff',
+                           'spots_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_3/exports/decode_20240604.csv',
+                            'out_path':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_3/exports'
+                           },
                   # 'timezero_roi_1':{'segmentation_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-04-27_spatialbarcodes_SG_expression_mouse_exp/time_zero_output/roi1/segmentations/segmentation_20240513_nuclei.tiff',
                   #             'spots_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-04-27_spatialbarcodes_SG_expression_mouse_exp/time_zero_output/roi1/transcripts/20240517_segmentation_withRefid.csv',
                   #             'out_path':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-04-27_spatialbarcodes_SG_expression_mouse_exp/time_zero_output/roi1/exports'
@@ -59,14 +79,14 @@ roi_file_paths = {
                    #            'spots_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_1/exports/transcripts.csv',
                    #             'out_path':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_1/exports/',
                    #              },
-                   # 'run2_roi_2':{'segmentation_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_2/exports/segmentation.tiff',
-                   #             'spots_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_2/exports/transcripts.csv',
-                   #             'out_path':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_2/exports/',
-                   #             },
-                   # 'run2_roi_3':{'segmentation_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_3/exports/segmentation.tiff',
-                   #             'spots_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_3/exports/transcripts.csv',
-                   #             'out_path':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_3/exports/',
-                   #             },
+                'run2_roi_2':{'segmentation_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_2/exports/segmentation.tiff',
+                            'spots_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_2/exports/transcripts.csv',
+                            'out_path':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_2/exports/',
+                            },
+                'run2_roi_3':{'segmentation_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_3/exports/segmentation.tiff',
+                            'spots_file':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_3/exports/transcripts.csv',
+                            'out_path':'/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-08-08_spatialbarcode_tumor2_projects/roi_3/exports/',
+                            },
 
 
                    #  #### for running on McRyanFace
@@ -101,10 +121,32 @@ roi_file_paths = {
 
 
 
+
 # this function jitters a point by the standard deviation
 # useful for jittering points for visualization
 def jitter_point(mean,std=0.15):
     return np.random.normal(mean,std)
+
+
+def divide_gdf_into_groups(gdf, n):
+    """Splits a gdf into n groups."""
+
+    if n > 1:
+
+        shuffled_ix = np.random.choice(gdf.index,size=len(gdf.index),replace=False)  # Shuffle the list for randomness
+        # gdf_shuffled = gdf.iloc[shuffled_ix]
+        group_size = len(gdf.index) // n
+        groups = []
+
+        for i in range(n):
+            start = i * group_size
+            end = start + group_size if i < n - 1 else len(shuffled_ix)
+            groups.append(gdf.loc[shuffled_ix[start:end]])
+
+        return groups
+    else:
+        return [gdf]
+
 
 # This function retrieves the polygons around a given polygon in an SGobject.
 # It takes the SGobject, identifier, id_field, and image_scale as input parameters.
@@ -282,7 +324,7 @@ def show_neighborhood(sg_obj, identifier, image_path, id_field='object_id', imag
     # plt.close()
     # return fig
 
-def show_neighborhood_subimage(image_path,bounds_tuple,ax=None):
+def show_neighborhood_subimage(image_path,bounds_tuple,ax=None,saturation_intensity=1.5,channel=3):
     #   transcripts, gene, gfp_coords,self_expression, nn_mean, output_figure_path, figure_size=[],width_cm = 8, height_cm = 8 ,dpi=300):
     """
     Display the neighborhood of a specific object in an image.
@@ -331,7 +373,7 @@ def show_neighborhood_subimage(image_path,bounds_tuple,ax=None):
     # print(np.shape(spot_in_range))
 
     # Crop the fourth channel using the bounding rectangle
-    cropped_image = image[3, range_y_lower:range_y_upper, range_x_lower:range_x_upper]
+    cropped_image = image[channel, range_y_lower:range_y_upper, range_x_lower:range_x_upper]
 
     # Check if cropped_image is non-empty
     if cropped_image.size == 0:
@@ -345,7 +387,7 @@ def show_neighborhood_subimage(image_path,bounds_tuple,ax=None):
     normalized_gray = normalized_gray.astype(np.uint8)
 
     # Increase the saturation of the blue channel
-    saturated_blue = normalized_gray * 1.5  # Increase intensity by 50%
+    saturated_blue = normalized_gray * saturation_intensity  # Increase intensity by 50%
     saturated_blue = np.clip(saturated_blue, 0, 255).astype(np.uint8)  # Ensure values are within 0-255
 
     # Create a new image with the blue channel based on the saturated grayscale values
@@ -372,114 +414,121 @@ def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id',
                                 marker_size=50,lw=1,color_map=None,label=None,ax=None,
                                 show_image=False,image_path=None,
                                 annotate_cells=False,annotation_color='w',
-                                annotation_fontsize=8
-                                ,**kwargs):
-        if sg_obj.gdf is None or sg_obj.assigned_points_gdf is None:
-            print("Error: Ensure both gdf and assigned_points_gdf are loaded.")
-            return
-        
-        # make kwargs back into dictionary
-        
+                                annotation_fontsize=8,n_plotting_groups=1,
+                                **kwargs):
+    if sg_obj.gdf is None or sg_obj.assigned_points_gdf is None:
+        print("Error: Ensure both gdf and assigned_points_gdf are loaded.")
+        return
+    
+    # make kwargs back into dictionary
     
 
-        polygon_gdf = sg_obj.gdf[sg_obj.gdf[id_field].isin(identifiers)]
 
-        if polygon_gdf.empty:
-            print(f"No polygon found with {id_field} == {identifier}")
+    polygon_gdf = sg_obj.gdf[sg_obj.gdf[id_field].isin(identifiers)]
+
+    if polygon_gdf.empty:
+        print(f"No polygon found with {id_field} == {identifier}")
+        return
+
+    if single_mode:
+        first_polygon_geometry = polygon_gdf.geometry.iloc[central_polygon_ix]
+        minx, miny, maxx, maxy = first_polygon_geometry.geometry.bounds
+    else:
+        all_polygon_bounds = polygon_gdf.geometry.bounds
+        minx = min(all_polygon_bounds.minx)
+        miny = min(all_polygon_bounds.miny)
+        maxx = max(all_polygon_bounds.maxx)
+        maxy = max(all_polygon_bounds.maxy)
+
+    dx = (maxx - minx) * 0.5 * image_scale
+    dy = (maxy - miny) * 0.5 * image_scale
+    expanded_bbox = box(minx - dx, miny - dy, maxx + dx, maxy + dy)
+
+    other_polygons = sg_obj.gdf[sg_obj.gdf.geometry.intersects(expanded_bbox) & (~sg_obj.gdf[id_field].isin(identifiers))]
+    
+    
+    if gene_names is not None:
+        if isinstance(gene_names, str):
+            gene_names = [gene_names]
+        # first pick the subset of points corresponding to the gene names
+        points_within_bbox = sg_obj.assigned_points_gdf[sg_obj.assigned_points_gdf['name'].isin(gene_names)]
+        # then filter to those within the expanded bbox
+        points_within_bbox = points_within_bbox[points_within_bbox.geometry.within(expanded_bbox)]
+    else:
+        # if no gene names are passed, get all the ones in the expanded bbox
+        points_within_bbox = sg_obj.assigned_points_gdf[sg_obj.assigned_points_gdf.geometry.within(expanded_bbox)]
+
+    if ax is None:
+        fig, ax = plt.subplots()
+
+    if show_image:
+        if image_path == None:
+            print('No image path found')
             return
-
-        if single_mode:
-            first_polygon_geometry = polygon_gdf.geometry.iloc[central_polygon_ix]
-            minx, miny, maxx, maxy = first_polygon_geometry.geometry.bounds
-        else:
-            all_polygon_bounds = polygon_gdf.geometry.bounds
-            minx = min(all_polygon_bounds.minx)
-            miny = min(all_polygon_bounds.miny)
-            maxx = max(all_polygon_bounds.maxx)
-            maxy = max(all_polygon_bounds.maxy)
-
-        dx = (maxx - minx) * 0.5 * image_scale
-        dy = (maxy - miny) * 0.5 * image_scale
-        expanded_bbox = box(minx - dx, miny - dy, maxx + dx, maxy + dy)
-
-        other_polygons = sg_obj.gdf[sg_obj.gdf.geometry.intersects(expanded_bbox) & (~sg_obj.gdf[id_field].isin(identifiers))]
         
-        
-        if gene_names is not None:
-            if isinstance(gene_names, str):
-                gene_names = [gene_names]
-            # first pick the subset of points corresponding to the gene names
-            points_within_bbox = sg_obj.assigned_points_gdf[sg_obj.assigned_points_gdf['name'].isin(gene_names)]
-            # then filter to those within the expanded bbox
-            points_within_bbox = points_within_bbox[points_within_bbox.geometry.within(expanded_bbox)]
-        else:
-            # if no gene names are passed, get all the ones in the expanded bbox
-            points_within_bbox = sg_obj.assigned_points_gdf[sg_obj.assigned_points_gdf.geometry.within(expanded_bbox)]
+        bounds_tuple = (minx - dx, miny - dy, maxx + dx, maxy + dy)
 
-        if ax is None:
-            fig, ax = plt.subplots()
-
-        if show_image:
-            if image_path == None:
-                print('No image path found')
-                return
-            
-            bounds_tuple = (minx - dx, miny - dy, maxx + dx, maxy + dy)
-
-            ax = show_neighborhood_subimage(image_path,bounds_tuple,ax=ax)
+        ax = show_neighborhood_subimage(image_path,bounds_tuple,ax=ax)
 
 
 
-        polygon_gdf.boundary.plot(ax=ax, color=focal_outline_color, linewidth=lw)
-        other_polygons.boundary.plot(ax=ax, color=other_outline_color, linewidth=lw)
+    polygon_gdf.boundary.plot(ax=ax, color=focal_outline_color, linewidth=lw)
+    other_polygons.boundary.plot(ax=ax, color=other_outline_color, linewidth=lw)
 
-        # Generate a unique color for each name
-        unique_names = points_within_bbox['name'].unique()
-        # sort by the order of the gene names if it exists
-        if gene_names is not None:
-            unique_names = sorted(unique_names, key=lambda x: gene_names.index(x))
+    # Generate a unique color for each name
+    unique_names = points_within_bbox['name'].unique()
+    # sort by the order of the gene names if it exists
+    if gene_names is not None:
+        unique_names = sorted(unique_names, key=lambda x: gene_names.index(x))
 
-        if color_map is None:
-            color_map = {name: plt.cm.tab20(i % 20) for i, name in enumerate(unique_names)}
-        # else:
+    if color_map is None:
+        color_map = {name: plt.cm.tab20(i % 20) for i, name in enumerate(unique_names)}
+    # else:
 
 
-        # Plot points, label them, and use consistent colors for names
-        for name, group in points_within_bbox.groupby('name'):
+    # Plot points, label them, and use consistent colors for names
+    for name, full_group in points_within_bbox.groupby('name'):
+
+        for group in divide_gdf_into_groups(full_group, n_plotting_groups):
+
+            z_order_here = np.random.choice(range(n_plotting_groups))
+
+            # print(type(group))
+            # print(group)
+            # break
+
             interior_points = group[group[id_field].isin(identifiers)]
             exterior_points = group[~group[id_field].isin(identifiers)]
             
             # Plot interior points with 'o' marker style
             if not interior_points.empty:
                 ax.scatter(interior_points.geometry.x, interior_points.geometry.y,
-                           marker=interior_marker, s=marker_size, edgecolor=interior_edgecolor, 
-                           color=color_map[name],lw=0,**kwargs)
-
+                        marker=interior_marker, s=marker_size, edgecolor=interior_edgecolor, 
+                        color=color_map[name],lw=0,zorder=z_order_here,**kwargs)
             # Plot exterior points with 'x' marker style
             if not exterior_points.empty:
                 ax.scatter(exterior_points.geometry.x, exterior_points.geometry.y, marker=exterior_marker, 
-                           s=marker_size, color=color_map[name],lw=0,**kwargs)
+                        s=marker_size, color=color_map[name],lw=0,zorder=z_order_here,**kwargs)
             
             if annotate:
                 # Labeling remains the same for all points
                 for x, y in zip(group.geometry.x, group.geometry.y):
                     ax.text(x, y, name, fontsize=8, ha='right')
 
-        # add names for the cells
-        if annotate_cells:
-            for x,y,name in zip(polygon_gdf.geometry.centroid.x,polygon_gdf.geometry.centroid.y,polygon_gdf['object_id'].values):
-                ax.text(x, y, name, fontsize=annotation_fontsize, ha='center',color=annotation_color)
-            for x,y,name in zip(other_polygons.geometry.centroid.x,other_polygons.geometry.centroid.y,other_polygons['object_id'].values):
-                ax.text(x, y, name, fontsize=annotation_fontsize, ha='center',color=annotation_color)
+    # add names for the cells
+    if annotate_cells:
+        for x,y,name in zip(polygon_gdf.geometry.centroid.x,polygon_gdf.geometry.centroid.y,polygon_gdf['object_id'].values):
+            ax.text(x, y, name, fontsize=annotation_fontsize, ha='center',color=annotation_color)
+        for x,y,name in zip(other_polygons.geometry.centroid.x,other_polygons.geometry.centroid.y,other_polygons['object_id'].values):
+            ax.text(x, y, name, fontsize=annotation_fontsize, ha='center',color=annotation_color)
 
+    ax.set_xlim([minx - dx, maxx + dx])
+    ax.set_ylim([miny - dy, maxy + dy])
+    ax.set_title(f"Polygons {label} and Surrounding Area")
+    ax.set_xlabel("X")
+    ax.set_ylabel("Y")
 
-        ax.set_xlim([minx - dx, maxx + dx])
-        ax.set_ylim([miny - dy, maxy + dy])
-        ax.set_title(f"Polygons {label} and Surrounding Area")
-        ax.set_xlabel("X")
-        ax.set_ylabel("Y")
-
-        return ax
+    return ax
 
 from matplotlib import pyplot as plt
 from scipy.cluster.hierarchy import dendrogram

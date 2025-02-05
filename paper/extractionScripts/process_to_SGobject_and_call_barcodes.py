@@ -21,30 +21,11 @@ from sklearn.cluster import AgglomerativeClustering as AggCluster
 import sys
 import os
 
-# tools_path  = '/Users/grantkinsler/Documents/Penn/Research/SpatialBarcodes/analysis/tools/tools.py'
 tools_path = '../helperScripts/tools.py'
-# tools_path  = '/Users/grantkinsler/Documents/Penn/Research/SpatialBarcodes/SpatialBarcodes/analysis/tools/tools.py'
-# tools_path = '/home/wniu/Documents/GRK/SpatialBarcodes/analysis/tools/tools.py'
+
 sys.path.append(os.path.dirname(os.path.expanduser(tools_path)))
 import tools
 
-# all_files = []
-
-# # filepath  = '/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/Shared_Grant/SpatialBarcodes/ImagingData/2024-02-27_spatialbarcodes_SG_expression/projects/2024-02-27_spatialbarcodes_expression/'
-# filepath = '/Users/grantkinsler/RajLab Dropbox/Grant Kinsler/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/'
-
-# # roi_2
-# roi_name = 'roi_2'
-
-# for roi in [1,2,3]:
-#     all_files.append(f'{filepath}roi_{roi_name})
-                     
-# all_files.append(')
-    
-### roi_name: [segmentation_file, spots_file, out_path]
-
-
-# /roi_2
 
 partially_processed = False
 cutoff = 3
@@ -80,6 +61,9 @@ for roi_name,files in tools.roi_file_paths.items():
         #     pickle.dump(sg_obj, f)
             
         matrix = sg_obj.get_cell_gene_table_df()
+
+        if matrix.index.name == 'object_id':
+            matrix = matrix.reset_index()
         matrix['object_id'] = [str(int(x)) for x in matrix['object_id']]
         matrix.set_index('object_id',inplace=True)
 
@@ -173,7 +157,7 @@ for roi_name,files in tools.roi_file_paths.items():
     for clu in np.unique(cluster.labels_):
         cluster_objects[clu] = matrix.index[cluster.labels_ == clu]
 
-        avg_bc_counts = np.median(matrix[cluster.labels_ == clu],axis=0)
+        avg_bc_counts = matrix[cluster.labels_ == clu].median(axis=0)
         # print(avg_bc_counts)
         # break
 
