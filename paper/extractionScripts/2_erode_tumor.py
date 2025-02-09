@@ -14,6 +14,14 @@ from matplotlib.colors import hsv_to_rgb
 from skimage.measure import regionprops, label
 Image.MAX_IMAGE_PIXELS = None
 np.random.seed(0)
+
+tools_path = '../helperScripts/tools.py'
+
+# /Users/grantkinsler/Documents/Penn/Research/SpatialBarcodes/analysis/tools/tools.py
+sys.path.append(os.path.dirname(os.path.expanduser(tools_path)))
+import tools as tools
+
+
 data_folder = '/Users/yaelheyman/RajLab Dropbox/Yael Heyman/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_2'
 output_folder = data_folder + '/processedData/erosion_analysis'
 cell_by_gene_path = data_folder + '/exports/cell_by_gene_matrix_20240606_10px_withbarcodes_atleast3.csv'
