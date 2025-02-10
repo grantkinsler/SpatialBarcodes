@@ -1,7 +1,0 @@
-design/*
-*.DS_Store
-data/*
-analysis/plots/old/*
-*.gitignore
-*.gitattributes
-*.ipynb_checkpoints
