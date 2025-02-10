@@ -127,8 +127,10 @@ for roi_name,files in tools.roi_file_paths.items():
     
     print('Performing clustering...')
 
-    # threshold = 0.4
-    threshold = 0.2
+    if 'dish' in roi_name:
+        threshold = 0.2
+    else:
+        threshold = 0.4
     # cluster = AggCluster(distance_threshold=threshold,n_clusters=None,linkage='average',metric='precomputed').fit(scipy.spatial.distance.squareform(braycurtis_dist))
     cluster = AggCluster(distance_threshold=threshold,n_clusters=None,linkage='average',affinity='precomputed').fit(scipy.spatial.distance.squareform(braycurtis_dist))
 

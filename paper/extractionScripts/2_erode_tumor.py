@@ -7,26 +7,34 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import PolygonSelector
 import matplotlib
-matplotlib.use('QtAgg')
+# matplotlib.use('QtAgg')
 from matplotlib.path import Path
 import cv2
 from matplotlib.colors import hsv_to_rgb
 from skimage.measure import regionprops, label
 Image.MAX_IMAGE_PIXELS = None
 np.random.seed(0)
+import sys
 
 tools_path = '../helperScripts/tools.py'
 
-# /Users/grantkinsler/Documents/Penn/Research/SpatialBarcodes/analysis/tools/tools.py
 sys.path.append(os.path.dirname(os.path.expanduser(tools_path)))
 import tools as tools
 
+data_folder = tools.roi_file_paths['roi_2']['out_path']
+temp_out_path = data_folder + '/../processedData/erosion_analysis'
 
-data_folder = '/Users/yaelheyman/RajLab Dropbox/Yael Heyman/SpatialBarcodes/ImagingData/2024-05-21_mouseexp_expression/projects/roi_2'
-output_folder = data_folder + '/processedData/erosion_analysis'
-cell_by_gene_path = data_folder + '/exports/cell_by_gene_matrix_20240606_10px_withbarcodes_atleast3.csv'
-selected_mask = data_folder +  '/processedData/erosion_analysis/selected_mask.png'
-transcripts_path = data_folder + '/exports/decode_20240604.csv'
+final_out_path = '../extractedData/in_vivo/'
+# output_folder = data_folder + '/processedData/erosion_analysis'
+# cell_by_gene_path = data_folder + '/exports/cell_by_gene_matrix_20240606_10px_withbarcodes_atleast3.csv'
+cell_by_gene_path = data_folder + '/cell_by_gene_matrix_dilate10_20240718_withbarcodes_atleast3.csv'
+# pd.read_csv(f'{tools.roi_file_paths[roi_of_interest]["out_path"]}/
+# selected_mask = data_folder +  '/processedData/erosion_analysis/selected_mask.png'
+selected_mask = final_out_path + 'selected_mask.png'
+transcripts_path = data_folder + '/decode_20240604.csv'
+
+
+
 
 
 class ErosionAnalysis:
@@ -34,15 +42,16 @@ class ErosionAnalysis:
         self.load_data()
         self.mask = np.zeros((48115, 60616), dtype=np.uint8)
         self.MAX_DIM = 20000
-        self.kernel_size = 25   # Increase this value to make each erosion more substantial
+        self.kernel_size = 100   # Increase this value to make each erosion more substantial
         self.scaling_factor = 1  # Default to no scaling
-        self.erosion_iterations = 100
+        self.erosion_iterations = 25
         self.pixel2nm = 107.11 # every pixel is 107.11 nm
     def load_data(self):
         self.cell_by_gene = pd.read_csv(cell_by_gene_path)
         self.original_centers = self.cell_by_gene[['center_x', 'center_y']].values.astype(float)
         self.centers = self.original_centers.copy()
         self.areas = self.cell_by_gene['area'].values
+        self.cell_id = self.cell_by_gene['cell_id'].values
         self.cell_by_gene = pd.read_csv(cell_by_gene_path)
 
     def resize_image_and_coordinates(self, image):
@@ -57,7 +66,8 @@ class ErosionAnalysis:
         return image
 
     def check_mask(self):
-        mask_file = output_folder +f'/num_iterations_{self.erosion_iterations}' + '/selected_mask.png'
+        mask_file = temp_out_path +f'/num_iterations_{self.erosion_iterations}' + '/selected_mask.png'
+        # print(mask_file)
         if os.path.exists(mask_file):
             print(f"Loading existing mask from {mask_file}")
             mask = Image.open(mask_file)
@@ -65,6 +75,7 @@ class ErosionAnalysis:
             mask = np.array(mask)
             self.mask = self.resize_image_and_coordinates(mask)
         else:
+            print("Creating a new mask")
             self.create_mask()
 
     def create_mask(self):
@@ -81,17 +92,17 @@ class ErosionAnalysis:
 
             self.mask = self.resize_image_and_coordinates(self.mask)
             mask_image = Image.fromarray(self.mask)
-            mask_image.save(output_folder+f'/num_iterations_{self.erosion_iterations}'  + '/selected_mask.png')
+            mask_image.save(temp_out_path+f'/num_iterations_{self.erosion_iterations}'  + '/selected_mask.png')
 
             plt.figure(figsize=(10, 10))
             plt.imshow(self.mask, cmap='gray')
             plt.title('Initial Mask')
             plt.xlabel('X Coordinate')
             plt.ylabel('Y Coordinate')
-            plt.show()
+            # plt.show()
 
         polygon_selector = PolygonSelector(ax, onselect)
-        plt.show()
+        # plt.show()
     def calculate_ring_width(self, mask1, mask2):
         # Subtract mask2 from mask1 to get the ring
         ring_mask = mask1 & ~mask2
@@ -137,7 +148,7 @@ class ErosionAnalysis:
             ring_widths.append({'Ring Width (um)': width })
             eroded_coords = []
 
-            for j, (x, y) in enumerate(self.centers):
+            for j, (x, y) in zip(self.cell_id,self.centers):
                 if int(y) < difference_mask.shape[0] and int(x) < difference_mask.shape[1] and difference_mask[int(y), int(x)] > 0:
                     eroded_coords.append((j, x / self.scaling_factor, y / self.scaling_factor))
             
@@ -146,18 +157,19 @@ class ErosionAnalysis:
                 eroded_mask_image = Image.fromarray(cv2.resize(self.mask, (int(self.mask.shape[1] / self.scaling_factor), int(self.mask.shape[0] / self.scaling_factor)), interpolation=cv2.INTER_NEAREST))
             else:
                 eroded_mask_image = Image.fromarray(self.mask)
-            eroded_mask_image.save(output_folder+f'/num_iterations_{self.erosion_iterations}' + f'/eroded_mask_{i + 1}.png')
-            eroded_df = pd.DataFrame(eroded_coords, columns=['Index', 'X', 'Y'])
-            eroded_df.to_csv(output_folder+f'/num_iterations_{self.erosion_iterations}'  + f'/eroded_coords_{i + 1}_.csv', index=False)
+            eroded_mask_image.save(temp_out_path+f'/num_iterations_{self.erosion_iterations}' + f'/eroded_mask_{i + 1}.png')
+            eroded_df = pd.DataFrame(eroded_coords, columns=['cell_id', 'X', 'Y'])
+            eroded_df.to_csv(temp_out_path+f'/num_iterations_{self.erosion_iterations}'  + f'/eroded_coords_{i + 1}_.csv', index=False)
 
             previous_mask = self.mask.copy()
-            cells_in_ring = eroded_df['Index'].values
+            cells_in_ring = eroded_df['cell_id'].values
             self.cell_by_gene.loc[self.cell_by_gene['cell_id'].isin(cells_in_ring), 'Ring'] = i
         # Convert to DataFrame and save as CSV
         df_ring_widths = pd.DataFrame(ring_widths)
-        output_csv_path = os.path.join(output_folder,f'num_iterations_{self.erosion_iterations}', 'ring_widths.csv')
-        self.cell_by_gene.to_csv(os.path.join(output_folder,f'num_iterations_{self.erosion_iterations}', 'cell_by_gene_with_rings.csv'))
+        output_csv_path = os.path.join(temp_out_path,f'num_iterations_{self.erosion_iterations}', 'ring_widths.csv')
+        self.cell_by_gene.to_csv(os.path.join(final_out_path, 'cell_by_gene_with_rings.csv'))
         df_ring_widths.to_csv(output_csv_path, index=False)
+        print('Mean ring width:',np.mean(df_ring_widths['Ring Width (um)']))
         # Generate dynamic colors for plotting
         hsv_colors = [(i / self.erosion_iterations, 1, 1) for i in range(self.erosion_iterations)]
         rgb_colors = hsv_to_rgb(hsv_colors)
@@ -178,8 +190,8 @@ class ErosionAnalysis:
         plt.xlabel('X Coordinate')
         plt.ylabel('Y Coordinate')
         plt.legend()
-        plt.savefig(output_folder +f'/num_iterations_{self.erosion_iterations}' + '/final_mask.jpg')
-        plt.show()
+        plt.savefig(temp_out_path +f'/num_iterations_{self.erosion_iterations}' + '/final_mask.jpg')
+        # plt.show()
 
 
 if __name__ == "__main__":
