@@ -1,0 +1,27 @@
+name: spatialgenomics-env2
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - geopandas=0.12.1
+  - matplotlib-base=3.6.2
+  - matplotlib-inline=0.1.6
+  - matplotlib-scalebar=0.8.1
+  - numpy=1.23.4
+  - pandas=1.5.1
+  - pickleshare=0.7.5
+  - pip=22.3.1
+  - rasterio=1.3.3
+  - scanpy=1.9.1
+  - scikit-image=0.19.3
+  - scikit-learn=1.1.3
+  - scipy=1.9.3
+  - seaborn=0.12.1
+  - shapely=1.8.5
+  - squidpy=1.2.2
+  - statsmodels=0.13.5
+  - tifffile=2022.10.10
+  - pip:
+      - opencv-python==4.11.0.86
+      - sganalysis==0.1.0
