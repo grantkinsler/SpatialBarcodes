@@ -23,7 +23,11 @@ Figure 2H - plot_clone_space_examples.ipynb
 # Supplemental figures
 
 Figure S1 - calculate_error_rate.ipynb
+
 Figure S3 - in_vitro_sister_similarity.ipynb
+
 Figure S4 - in_vivo_plotting.ipynb
+
 Figure S8 - plot_clone_space_examples.ipynb
+
 Figure S9 - plot_clone_space_examples.ipynb
