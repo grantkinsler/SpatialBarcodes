@@ -2,7 +2,7 @@
 
 This directory contains all of the files needed to plot the figures from the SpaceBar paper. We list below which scripts correspond to the plotting of each subfigure. Each plotting script leverages raw data and/or extracted data produced by scripts in the extractionScripts directory.
 
-# Main text figures
+### Main text figures
 
 Figure 1B - calculate_moi_cells_in_dish.ipynb
 
@@ -20,7 +20,7 @@ Figure 2G - plot_clone_space_examples.ipynb
 
 Figure 2H - plot_clone_space_examples.ipynb
 
-# Supplemental figures
+### Supplemental figures
 
 Figure S1 - calculate_error_rate.ipynb
 
