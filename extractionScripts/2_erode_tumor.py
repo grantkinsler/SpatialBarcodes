@@ -21,17 +21,28 @@ tools_path = '../helperScripts/tools.py'
 sys.path.append(os.path.dirname(os.path.expanduser(tools_path)))
 import tools as tools
 
-data_folder = tools.roi_file_paths['roi_2']['out_path']
+# roi_name = 'roi_1'
+# roi_name = 'roi_3'
+roi_name = 'run2_roi_3'
+data_folder = tools.roi_file_paths[roi_name]['out_path']
+# data_folder = tools.roi_file_paths['roi_2']['out_path']
+# data_folder = tools.roi_file_paths['roi_3']['out_path']
+# data_folder = tools.roi_file_paths['run2_roi_2']['out_path']
+# data_folder = tools.roi_file_paths['run2_roi_3']['out_path']
+
 temp_out_path = data_folder + '/../processedData/erosion_analysis'
 
-final_out_path = '../extractedData/in_vivo/'
+# final_out_path = '../extractedData/in_vivo/'
+final_out_path = '../extractedData/in_vivo/other_rois/'
+
 # output_folder = data_folder + '/processedData/erosion_analysis'
 # cell_by_gene_path = data_folder + '/exports/cell_by_gene_matrix_20240606_10px_withbarcodes_atleast3.csv'
 cell_by_gene_path = data_folder + '/cell_by_gene_matrix_dilate10_20240718_withbarcodes_atleast3.csv'
 # pd.read_csv(f'{tools.roi_file_paths[roi_of_interest]["out_path"]}/
 # selected_mask = data_folder +  '/processedData/erosion_analysis/selected_mask.png'
 selected_mask = final_out_path + 'selected_mask.png'
-transcripts_path = data_folder + '/decode_20240604.csv'
+# transcripts_path = data_folder + '/decode_20240604.csv'
+transcripts_path = data_folder + '/transcripts.csv'
 
 
 
@@ -167,7 +178,7 @@ class ErosionAnalysis:
         # Convert to DataFrame and save as CSV
         df_ring_widths = pd.DataFrame(ring_widths)
         output_csv_path = os.path.join(temp_out_path,f'num_iterations_{self.erosion_iterations}', 'ring_widths.csv')
-        self.cell_by_gene.to_csv(os.path.join(final_out_path, 'cell_by_gene_with_rings.csv'))
+        self.cell_by_gene.to_csv(os.path.join(final_out_path, f'{roi_name}_cell_by_gene_with_rings.csv'))
         df_ring_widths.to_csv(output_csv_path, index=False)
         print('Mean ring width:',np.mean(df_ring_widths['Ring Width (um)']))
         # Generate dynamic colors for plotting
