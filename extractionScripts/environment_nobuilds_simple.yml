@@ -4,6 +4,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - python=3.9.13
   - geopandas=0.12.1
   - matplotlib-base=3.6.2
   - matplotlib-inline=0.1.6
@@ -24,4 +25,3 @@ dependencies:
   - tifffile=2022.10.10
   - pip:
       - opencv-python==4.11.0.86
-      - sganalysis==0.1.0
