@@ -21,9 +21,9 @@ tools_path = '../helperScripts/tools.py'
 sys.path.append(os.path.dirname(os.path.expanduser(tools_path)))
 import tools as tools
 
-# roi_name = 'roi_1'
+roi_name = 'roi_1'
 # roi_name = 'roi_3'
-roi_name = 'run2_roi_3'
+# roi_name = 'run2_roi_3'
 data_folder = tools.roi_file_paths[roi_name]['out_path']
 # data_folder = tools.roi_file_paths['roi_2']['out_path']
 # data_folder = tools.roi_file_paths['roi_3']['out_path']

@@ -447,7 +447,7 @@ def plot_polygons_and_points(sg_obj, identifiers, id_field='object_id',
     polygon_gdf = sg_obj.gdf[sg_obj.gdf[id_field].isin(identifiers)]
 
     if polygon_gdf.empty:
-        print(f"No polygon found with {id_field} == {identifier}")
+        print(f"No polygon found with {id_field} == {identifiers}")
         return
 
     if single_mode:
