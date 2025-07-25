@@ -14,7 +14,7 @@ Figure 2D - plot_clone_space_scores.ipynb
 
 Figure 2E - plot_clone_space_examples.ipynb
 
-Figure 2F - extractionData/calculate_space_scores.ipynb
+Figure 2F - ../extractionScripts/calculate_space_scores.ipynb
 
 Figure 2G - plot_clone_space_examples.ipynb
 
@@ -24,10 +24,18 @@ Figure 2H - plot_clone_space_examples.ipynb
 
 Figure S1 - calculate_error_rate.ipynb
 
+Figure S2 - 
+
 Figure S3 - in_vitro_sister_similarity.ipynb
 
 Figure S4 - in_vivo_plotting.ipynb
 
-Figure S8 - plot_clone_space_examples.ipynb
+Figure S5 - 
 
-Figure S9 - plot_clone_space_examples.ipynb
+Figure S6; all except E+F - 
+
+Figure S6; panels E+F - S6_bc_spot_stats_compare_invitro_invivo.ipynb
+
+Figure S8-S11 - plot_clone_space_examples_other_rois.ipynb
+
+Figure S12-S13 - plot_clone_space_examples.ipynb
