@@ -4,7 +4,7 @@ This directory contains all of the files needed to plot the figures from the Spa
 
 ### Main text figures
 
-Figure 1B - calculate_moi_cells_in_dish.ipynb
+Figure 1B - invitro_v_invivo_barcode_detection.ipynb
 
 Figure 1C - in_vitro_plotting.ipynb
 
