@@ -22,19 +22,17 @@ Figure 2H - plot_clone_space_examples.ipynb
 
 ### Supplemental figures
 
-Figure S1 - calculate_error_rate.ipynb
+Figure S2 - calculate_error_rate_empirical.ipynb
 
-Figure S2 - 
+Figure S3 - barcode_uniformity_analysis.ipynb
 
-Figure S3 - in_vitro_sister_similarity.ipynb
+Figure S4 - in_vitro_sister_similarity.ipynb
 
-Figure S4 - in_vivo_plotting.ipynb
+Figure S5 - in_vivo_plotting.ipynb
 
-Figure S5 - 
+Figure S6; all except E+F - invitro_v_invivo_barcode_detection.ipynb
 
-Figure S6; all except E+F - 
-
-Figure S6; panels E+F - S6_bc_spot_stats_compare_invitro_invivo.ipynb
+Figure S6; panels E+F - invitro_v_invivo_expression.ipynb
 
 Figure S8-S11 - plot_clone_space_examples_other_rois.ipynb
 
