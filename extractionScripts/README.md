@@ -16,3 +16,6 @@ The scripts perform the following tasks:
 
 7_invivo_expression_helper.ipynb - Calculates the mean expression of genes and barcodes from all the in-vivo ROIs.
 
+8_neighbor_barcode_overlap_unclustered.ipynb - Calcualtes the fraction of non-sister neighbors that share a substantial number of barcodes, for unclustered data.
+
+8_neighbor_barcode_overlap_clustered.ipynb - Same as (8) but for clustered data
